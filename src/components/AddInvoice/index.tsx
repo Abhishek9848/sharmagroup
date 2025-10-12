@@ -7,6 +7,7 @@ import DateRangePicker from "../FormElements/DatePicker/DateRangePicker";
 import InputGroup from "../FormElements/InputGroup";
 import AutocompleteInput from "../FormElements/InputGroup/auto-complete";
 import { TextAreaGroup } from "../FormElements/InputGroup/text-area";
+import WorkDetailsRow from "./workDetailsRow";
 
 const AddInvoice = () => {
   const initialWorkDetails = [
@@ -17,8 +18,8 @@ const AddInvoice = () => {
       quantity: '',
       rate: '',
       amount: '',
-      igst: 0,
-      total: 0
+      igst: '',
+      total: ''
   }
   ]
   const [invoiceDate, setInvoiceDate] = useState("");
@@ -26,7 +27,7 @@ const AddInvoice = () => {
   const [typeOfWork, setTypeOfWork] = useState("");
   const [range, setRange] = useState("");
   const [workDetails, setWorkDetails] = useState(initialWorkDetails);
-  const [productDescription, setProductDescription] = useState("");
+  console.log("workDetails", workDetails)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log({
@@ -35,9 +36,6 @@ const AddInvoice = () => {
       range,
       typeOfWork,
     })
-    // You can split range into start & end if needed:
-    const [startDate, endDate] = range.split(" to ");
-    console.log("Start:", startDate, "End:", endDate);
   };
   const suggestions = [
     "New Delhi",
@@ -47,15 +45,10 @@ const AddInvoice = () => {
     "Pune",
     "Bangalore",
   ];
-
-  const handleProductDescription = (value: string) => {
-    setProductDescription(value);
-    console.log("Selected:", value);
-  };
   return (
     <>
       <div className="w-full max-w-full rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card p-5">
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
         <DatePickerOne 
           name="invoiceDate"
@@ -85,7 +78,12 @@ const AddInvoice = () => {
             handleChange={(e) => setTypeOfWork(e.target.value)}
           />
         </div>
-        <div className="mb-5.5 flex flex-col gap-3.5 sm:flex-row">
+        <WorkDetailsRow
+          suggestions = {suggestions}
+          rows = {workDetails}
+          setRows = {setWorkDetails}
+        />
+        {/* <div className="mb-5.5 flex flex-col gap-3.5 sm:flex-row">
             <AutocompleteInput
             id="productDescriptions"
             label="Product Descriptions"
@@ -155,7 +153,7 @@ const AddInvoice = () => {
             height="sm"
             handleChange={(e) => setTypeOfWork(e.target.value)}
           />
-        </div>
+        </div> */}
         <div className="flex justify-end gap-3">
           <button
             className="rounded-lg border border-stroke px-6 py-[7px] font-medium text-dark hover:shadow-1 dark:border-dark-3 dark:text-white"

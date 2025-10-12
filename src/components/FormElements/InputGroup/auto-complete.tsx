@@ -23,9 +23,8 @@ export default function AutocompleteInput({
   const [filtered, setFiltered] = useState<string[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
-
+  // Close dropdown on outside click
   useEffect(() => {
-    // Close dropdown on outside click
     const handleClickOutside = (e: MouseEvent) => {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
         setShowDropdown(false);
@@ -35,42 +34,56 @@ export default function AutocompleteInput({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Handle input typing
   const handleChange = (value: string) => {
+    
     setInputValue(value);
+
+    if (!value) {
+      setFiltered([]);
+      setShowDropdown(false);
+      return;
+    }
+
     const results = suggestions.filter((s) =>
       s.toLowerCase().includes(value.toLowerCase())
     );
     setFiltered(results);
-    setShowDropdown(true);
-  };
-
-  const handleSelect = (value: string) => {
-    setInputValue(value);
-    setShowDropdown(false);
+    setShowDropdown(results.length > 0);
     onSelect?.(value);
   };
+
+  // Handle selection from dropdown
+  const handleSelect = (value: string) => {
+    setInputValue(value);   // update input
+    setFiltered([]);        // clear filtered list
+    setShowDropdown(false); // close dropdown
+    onSelect?.(value);      // notify parent
+  };
+
   return (
-    <div ref={wrapperRef} className="relative">
-      <label
-        htmlFor={id}
-        className="text-body-sm font-medium text-dark dark:text-white"
-      >
-        {label}
-        {required && <span className="ml-1 select-none text-red">*</span>}
-      </label>
-      <div
-        className="relative mt-3 [&_svg]:absolute [&_svg]:top-1/2 [&_svg]:-translate-y-1/2"
-      >
+    <div ref={wrapperRef} className="relative w-full sm:w-[250px]">
+      {label && (
+        <label
+          htmlFor={id}
+          className="text-body-sm font-medium text-dark dark:text-white"
+        >
+          {label}
+          {required && <span className="ml-1 select-none text-red">*</span>}
+        </label>
+      )}
+      <div className="relative mt-2">
         <input
+          id={id}
           value={inputValue}
           onChange={(e) => handleChange(e.target.value)}
-          onFocus={() => setShowDropdown(true)}
+          onFocus={() => filtered.length > 0 && setShowDropdown(true)}
           placeholder={placeholder}
-          className="w-[250px] h-12 rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-blue-500 dark:bg-dark-2 dark:text-white"
+          className="w-full h-12 rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-blue-500 dark:bg-dark-2 dark:text-white"
         />
 
         {showDropdown && filtered.length > 0 && (
-          <ul className="fixed z-50 mt-1 max-h-48 w-[250px] overflow-auto rounded-lg border border-gray-300 bg-white shadow-lg dark:bg-gray-800 dark:border-gray-600">
+          <ul className="absolute z-50 mt-1 max-h-48 w-full overflow-auto rounded-lg border border-gray-300 bg-white shadow-lg dark:bg-gray-800 dark:border-gray-600">
             {filtered.map((item, idx) => (
               <li
                 key={idx}
