@@ -1,5 +1,6 @@
 import * as Icons from "../icons";
 import { MdCreateNewFolder } from "react-icons/md";
+import { MdImageSearch } from "react-icons/md";
 
 export const NAV_DATA = [
   {
@@ -9,6 +10,12 @@ export const NAV_DATA = [
         title: "Add Invoice",
         url: "/add-invoice",
         icon:  MdCreateNewFolder,
+        items: [],
+      },
+      {
+        title: "View Invoice",
+        url: "/view-invoices",
+        icon:  MdImageSearch,
         items: [],
       },
       {
