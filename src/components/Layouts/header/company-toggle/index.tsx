@@ -16,22 +16,22 @@ export function CompanyToggleSwitch() {
   return (
     <button
       onClick={toggleProfile}
-      className={`relative flex w-25 items-center justify-between rounded-full p-2  transition-colors ${
+      className={`relative flex w-35 items-center justify-between rounded-full p-2  transition-colors ${
         currentProfile === "sharmaRoadLines"
-          ? "bg-blue-500 text-white"
-          : "bg-green-500 text-white"
+          ? "bg-gray-200 text-white"
+          : "bg-blue-500 text-white"
       }`}
     >
       <span
         className={`absolute top-1 bottom-1 w-[50%] rounded-full bg-white transition-all ${
           currentProfile === "sharmaRoadLines"
             ? "left-1"
-            : "left-[calc(50%+4px)]"
+            : "left-[calc(50%-5px)]"
         }`}
       ></span>
 
       <span
-        className={`z-10 w-1/2 text-center transition ${
+        className={`z-10 flex w-1/2 h-full items-center justify-center transition ${
           currentProfile === "sharmaRoadLines"
             ? "text-blue-500 font-semibold"
             : "text-white"
@@ -40,7 +40,7 @@ export function CompanyToggleSwitch() {
         <Srl />
       </span>
       <span
-        className={`z-10 w-1/2 text-center transition ${
+        className={`z-10 flex w-1/2 h-full items-center justify-center transition ${
           currentProfile === "sharmaInteriors"
             ? "text-green-500 font-semibold"
             : "text-white"

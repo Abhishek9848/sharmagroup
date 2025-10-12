@@ -15,7 +15,6 @@ import { useStateContext } from '@/context/ContextProvider';
 export function Header() {
   const { toggleSidebar, isMobile } = useSidebarContext();
   const  handleSignOut  = useStateContext();
-  console.log("handleSignOut", handleSignOut)
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between border-b border-stroke bg-white px-4 py-2 shadow-1 dark:border-stroke-dark dark:bg-gray-dark md:px-5 2xl:px-10">
       <button

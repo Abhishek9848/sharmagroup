@@ -1,4 +1,4 @@
-import darkLogo from "@/assets/logos/logo-interiors.png";
+import srlLogo from "@/assets/logos/logo.png";
 import logo from "@/assets/logos/logo-interiors.png";
 import Image from "next/image";
 import  { useStateContext }  from "@/context/ContextProvider";
@@ -10,20 +10,10 @@ export function Logo() {
       <div className="relative h-12 w-15 flex-shrink-0">
         {/* Light mode logo */}
         <Image
-          src={logo}
+          src={currentProfile === "sharmaRoadLines" ? srlLogo :logo}
           alt="Sharma Interiors logo"
           fill
-          className="dark:hidden object-contain"
-          sizes="160px"
-          priority
-        />
-
-        {/* Dark mode logo */}
-        <Image
-          src={darkLogo}
-          alt="Sharma Interiors dark logo"
-          fill
-          className="hidden dark:block object-contain"
+          className="object-contain"
           sizes="160px"
           priority
         />
