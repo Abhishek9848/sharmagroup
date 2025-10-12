@@ -1,6 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import AutocompleteInput from "../FormElements/InputGroup/auto-complete";
 import InputGroup from "../FormElements/InputGroup";
+import { MdDelete } from "react-icons/md";
 
 
 type RowType = {
@@ -110,21 +111,23 @@ const WorkDetailsRow = ({ suggestions, rows, setRows }: WorkDetailsRowProps) => 
                         handleChange={(e) => handleRowChange(index, "rate", e.target.value)}
                     />
                     <InputGroup
-                        width="w-30"
+                        width="w-25"
                         type="text"
                         name="amount"
                         label="Amount"
                         value={row.amount}
                         height="sm"
+                        required
                         placeholder=""
                         handleChange={(e) => handleRowChange(index, "amount", e.target.value)}
                     />
                     <InputGroup
-                        width="w-30"
+                        width="w-25"
                         type="text"
                         name="igst"
                         label="IGST"
                         value={row.igst}
+                        required
                         height="sm"
                         placeholder=""
                         handleChange={(e) => handleRowChange(index, "igst", e.target.value)}
@@ -136,16 +139,19 @@ const WorkDetailsRow = ({ suggestions, rows, setRows }: WorkDetailsRowProps) => 
                         label="Total"
                         value={row.total}
                         height="sm"
+                        required
                         placeholder=""
                         handleChange={(e) => handleRowChange(index, "total", e.target.value)}
                     />
 
                     <button
                         type="button"
-                        className="text-red-500 ml-2 h-max mt-auto mb-2"
+                        className="text-red-500 h-max mt-auto mb-2"
                         onClick={() => removeRow(index)}
                     >
-                        Remove
+                        <MdDelete 
+                            size={"25px"}
+                        />
                     </button>
                 </div>
             ))}

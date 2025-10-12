@@ -12,6 +12,7 @@ type InputGroupProps = {
   disabled?: boolean;
   active?: boolean;
   handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   value?: string;
   name?: string;
   icon?: React.ReactNode;
@@ -29,6 +30,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
   disabled,
   active,
   handleChange,
+  onBlur,
   icon,
   ...props
 }) => {
@@ -60,6 +62,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
           onChange={handleChange}
           value={props.value}
           defaultValue={props.defaultValue}
+          onBlur={onBlur}
           className={cn(
             `${props.width ? props.width : "w-full"} rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition focus:border-primary disabled:cursor-default disabled:bg-gray-2 data-[active=true]:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary dark:disabled:bg-dark dark:data-[active=true]:border-primary`,
             type === "file"

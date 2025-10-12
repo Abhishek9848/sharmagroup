@@ -11,7 +11,7 @@ import type { Metadata } from "next";
 import NextTopLoader from "nextjs-toploader";
 import type { PropsWithChildren } from "react";
 import { Providers } from "./providers";
-
+import { Toaster } from "react-hot-toast";
 export const metadata: Metadata = {
   title: {
     template: "%s | NextAdmin - Next.js Dashboard Kit",
@@ -26,6 +26,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="en" suppressHydrationWarning>
       <body>
         <Providers>
+          <Toaster />
           <NextTopLoader color="#5750F1" showSpinner={false} />
 
           <div className="flex min-h-screen">
