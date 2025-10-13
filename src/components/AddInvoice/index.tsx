@@ -1,9 +1,9 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
-import DatePickerOne from "../FormElements/DatePicker/DatePickerOne";
-import DateRangePicker from "../FormElements/DatePicker/DateRangePicker";
+import { useEffect, useState,useRef } from "react";
+import DatePickerOne, { DatePickerOneRef } from "../FormElements/DatePicker/DatePickerOne";
+import DateRangePicker, { DateRangePickerRef } from "../FormElements/DatePicker/DateRangePicker";
 import InputGroup from "../FormElements/InputGroup";
 import WorkDetailsRow from "./workDetailsRow";
 import { doPost } from "@/services/network.service";
@@ -33,67 +33,96 @@ const AddInvoice = () => {
   const [workDetails, setWorkDetails] = useState(initialWorkDetails);
   const [errors, setErrors] = useState("");
   const [loading, setLoading] = useState(false);
+  const datePickerRef = useRef<DatePickerOneRef>(null);
+  const rangePickerRef = useRef<DateRangePickerRef>(null);
   console.log("workDetails", workDetails)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    workDetails.map((row) => {
-      if(errors) return;
-      if (!row.total || Number(row.total) <= 0) setErrors("Grand Total should be greater than 0");
-      if (!row.igst || Number(row.igst) <= 0) setErrors("IGST should be greater than 0");
-      if (!row.amount || Number(row.amount) <= 0) setErrors("Amount should be greater than 0");
-    });
-    if(errors){
-      console.log("error-->>", errors)
-      toast.error(errors)
-      return;
-    }
-    console.log(JSON.stringify({
-      invoiceDate,
-      invoiceNumber,
-      measurementPeriod: range,
-      typeOfWork,
-      workDetails,
-      total,
-      totalIgst,
-      grandTotal,
-    }))
-    try {
-      setLoading(true)
-      const response = await doPost("/interiors/invoice/create", {
-        invoiceDate,
-        invoiceNumber,
-        measurementPeriod: range,
-        typeOfWork,
-        workDetails,
-        total,
-        totalIgst,
-        grandTotal,
-      });
-      if (response.success === true) {
         setWorkDetails(initialWorkDetails)
         setInvoiceDate('')
+        datePickerRef.current?.clear();
         setInvoiceNumber('')
         setTypeOfWork('')
         setRange("")
+        rangePickerRef.current?.clear();
         setTotal(0)
         setTotalIgst(0)
         setGrandTotal(0)
         setRoundOff(0)
         setErrors("")
         setLoading(false)
-        toast.success(response.message)
-    }
-    setLoading(false)
-    } catch (error: any) {
-      setLoading(false)
-      if (error.response) {
-        const message =
-        (error.response?.data as { message?: string })?.message ||
-        "Something went wrong";
-        return toast.error(message);
-      }
-      toast.error("Internal server error")
-    }
+    // workDetails.map((row) => {
+    //   if(errors) return;
+    //   if (!row.total || Number(row.total) <= 0) setErrors("Grand Total should be greater than 0");
+    //   if (!row.igst || Number(row.igst) <= 0) setErrors("IGST should be greater than 0");
+    //   if (!row.amount || Number(row.amount) <= 0) setErrors("Amount should be greater than 0");
+    // });
+    // if(errors){
+    //   console.log("error-->>", errors)
+    //   toast.error(errors)
+    //   return;
+    // }
+    // console.log(JSON.stringify({
+    //   invoiceDate,
+    //   invoiceNumber,
+    //   measurementPeriod: range,
+    //   typeOfWork,
+    //   workDetails,
+    //   total,
+    //   totalIgst,
+    //   roundOff,
+    //   grandTotal,
+    // }))
+    // try {
+    //   setLoading(true)
+    //   const response = await doPost("/interiors/invoice/create", {
+    //     invoiceDate,
+    //     invoiceNumber,
+    //     measurementPeriod: range,
+    //     typeOfWork,
+    //     workDetails,
+    //     total,
+    //     totalIgst,
+    //     roundOff,
+    //     grandTotal,
+    //   });
+    //   console.log("Response --->>", response)
+    //   if (response.success === true) {
+    //     setWorkDetails(initialWorkDetails)
+    //     setInvoiceDate('')
+    //     setInvoiceNumber('')
+    //     setTypeOfWork('')
+    //     setRange("")
+    //     setTotal(0)
+    //     setTotalIgst(0)
+    //     setGrandTotal(0)
+    //     setRoundOff(0)
+    //     setErrors("")
+    //     setLoading(false)
+    //     toast.success(response.message)
+    // }
+    // console.log(JSON.stringify({
+    //   invoiceDate,
+    //   invoiceNumber,
+    //   measurementPeriod: range,
+    //   typeOfWork,
+    //   workDetails,
+    //   total,
+    //   totalIgst,
+    //   roundOff,
+    //   grandTotal,
+    // }))
+    // setLoading(false)
+    // } catch (error: any) {
+    //   setLoading(false)
+    //   if (error.response) {
+    //     const message =
+    //     (error.response?.data as { message?: string })?.message ||
+    //     "Something went wrong";
+    //     return toast.error(message);
+    //   }
+    //   toast.error("Internal server error")
+    // }
   };
   const suggestions = [
     "New Delhi",
@@ -103,6 +132,17 @@ const AddInvoice = () => {
     "Pune",
     "Bangalore",
   ];
+  console.log(JSON.stringify({
+    invoiceDate,
+    invoiceNumber,
+    measurementPeriod: range,
+    typeOfWork,
+    workDetails,
+    total,
+    totalIgst,
+    roundOff,
+    grandTotal,
+  }))
   useEffect(() => {
     let totalAmount = 0;
     let totalIgstAmount = 0;
@@ -121,7 +161,7 @@ const AddInvoice = () => {
     setGrandTotal(roundedGrandTotal);
     setRoundOff(roundOff);
   }, [workDetails]);
-  
+
   return (
     <>
       <div className="w-full max-w-full rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card p-5">
@@ -130,8 +170,10 @@ const AddInvoice = () => {
         }}>
           <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
             <DatePickerOne
+              ref={datePickerRef}
               name="invoiceDate"
               label="Invoice Date"
+              defaultValue={invoiceDate}
               onChange={(val) => setInvoiceDate(val)}
             />
             <InputGroup
@@ -140,11 +182,14 @@ const AddInvoice = () => {
               name="invoiceNumber"
               label="Invoice Number"
               placeholder=""
+              value={invoiceNumber}
               handleChange={(e) => setInvoiceNumber(e.target.value)}
             />
             <DateRangePicker
+            ref={rangePickerRef}
               name="invoiceNumber"
               label="Measurement Period"
+              defaultValue={range}
               onChange={(val) => setRange(val)}
             />
             <InputGroup
@@ -154,6 +199,7 @@ const AddInvoice = () => {
               label="Type of Work"
               placeholder=""
               height="sm"
+              value={typeOfWork}
               handleChange={(e) => setTypeOfWork(e.target.value)}
             />
           </div>

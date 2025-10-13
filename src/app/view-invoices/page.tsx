@@ -1,6 +1,9 @@
 "use client";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { DataTable } from "@/components/Tables/table";
+import { doGet } from "@/services/network.service";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FiEye, FiDownload, FiEdit } from "react-icons/fi";
 type Invoice = {
   id: string;
@@ -17,11 +20,9 @@ export type Column<T> = {
 };
 
 const ViewInvoicePage = () => {
-
-  const invoices: Invoice[] = [
-    { id: "1", invoiceNumber: "INV001", invoiceDate: "2025-10-12", typeOfWork: "Painting", grandTotal: 1500 },
-    { id: "2", invoiceNumber: "INV002", invoiceDate: "2025-10-10", typeOfWork: "Renovation", grandTotal: 2500 },
-  ];
+const [invoices, setInvoices] = useState([])
+const [fetch, setFetch] = useState(0)
+const [loading, setLoading] = useState(false)
   const actions = [
     { icon: FiEye, tooltip: "View", onClick: (row: Invoice) => console.log("View", row) },
     { icon: FiDownload, tooltip: "Download", onClick: (row: Invoice) => console.log("Download", row), color: "text-green-500" },
@@ -34,6 +35,31 @@ const ViewInvoicePage = () => {
     { key: "grandTotal", label: "Grand Total", sortable: true, render: (row) => row.grandTotal.toFixed(2) },
     { key: "actions", label: "Actions" },
   ];
+  useEffect(() => {
+    async function getInvoice() {
+        try {
+            setLoading(true)
+            const res = await doGet('interiors/invoice/all', {});
+            console.log("Response out: ", res)
+            if (res.success === true) {
+              console.log("Response: ", res)
+              // const data = transformGridData(res.data)
+              setInvoices(res.data)
+            }
+            setLoading(false)
+        } catch (error: any) {
+          setLoading(false)
+          if (error.response) {
+            const message =
+            (error.response?.data as { message?: string })?.message ||
+            "Something went wrong";
+            return toast.error(message);
+          }
+          toast.error("Internal server error")
+        }
+        }
+    getInvoice()
+}, [fetch])
   return (
     <>
       <Breadcrumb pageName="View Invoices" />

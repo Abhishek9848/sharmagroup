@@ -7,6 +7,7 @@ type AutocompleteInputProps = {
   id?: string;
   placeholder?: string;
   required?: boolean;
+  value: string;
   suggestions: string[];
   onSelect?: (value: string) => void;
 };
@@ -16,10 +17,11 @@ export default function AutocompleteInput({
   id,
   required,
   label,
+  value,
   suggestions,
+
   onSelect,
 }: AutocompleteInputProps) {
-  const [inputValue, setInputValue] = useState("");
   const [filtered, setFiltered] = useState<string[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -33,11 +35,8 @@ export default function AutocompleteInput({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
   // Handle input typing
   const handleChange = (value: string) => {
-    
-    setInputValue(value);
 
     if (!value) {
       setFiltered([]);
@@ -54,8 +53,7 @@ export default function AutocompleteInput({
   };
 
   // Handle selection from dropdown
-  const handleSelect = (value: string) => {
-    setInputValue(value);   // update input
+  const handleSelect = (value: string) => {  // update input
     setFiltered([]);        // clear filtered list
     setShowDropdown(false); // close dropdown
     onSelect?.(value);      // notify parent
@@ -75,7 +73,7 @@ export default function AutocompleteInput({
       <div className="relative mt-2">
         <input
           id={id}
-          value={inputValue}
+          value={value}
           onChange={(e) => handleChange(e.target.value)}
           onFocus={() => filtered.length > 0 && setShowDropdown(true)}
           placeholder={placeholder}

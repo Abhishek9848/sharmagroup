@@ -68,6 +68,7 @@ const WorkDetailsRow = ({ suggestions, rows, setRows }: WorkDetailsRowProps) => 
                         id={`productDescriptions-${index}`}
                         label="Product Descriptions"
                         suggestions={suggestions}
+                        value={row.productDescription}
                         onSelect={(value) => handleRowChange(index, "productDescription", value)}
                     />
                     <InputGroup
