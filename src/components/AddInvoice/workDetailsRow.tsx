@@ -23,7 +23,6 @@ type WorkDetailsRowProps = {
 
 const WorkDetailsRow = ({ suggestions, rows, setRows }: WorkDetailsRowProps) => {
     const handleRowChange = (index: number, field: keyof RowType, value: string) => {
-        console.log("i")
         const updatedRows = [...rows];
         updatedRows[index][field] = value;
 

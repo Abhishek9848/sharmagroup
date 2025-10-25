@@ -14,11 +14,11 @@ import { Providers } from "./providers";
 import { Toaster } from "react-hot-toast";
 export const metadata: Metadata = {
   title: {
-    template: "%s | NextAdmin - Next.js Dashboard Kit",
-    default: "NextAdmin - Next.js Dashboard Kit",
+    template: "%s | Sharma Group",
+    default: "Sharma Group",
   },
   description:
-    "Next.js admin dashboard toolkit with 200+ templates, UI components, and integrations for fast dashboard development.",
+    "Sharma group is the group of two company named sharma road lines and shama interiors which deals in transportations and interiors",
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {

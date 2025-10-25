@@ -70,7 +70,7 @@ export default function AutocompleteInput({
           {required && <span className="ml-1 select-none text-red">*</span>}
         </label>
       )}
-      <div className="relative mt-2">
+      <div className="relative mt-3">
         <input
           id={id}
           value={value}

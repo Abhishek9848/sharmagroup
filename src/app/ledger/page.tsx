@@ -5,19 +5,13 @@ import FullScreenLoader from "@/components/ui/loader";
 import { doGet } from "@/services/network.service";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { FiEye, FiDownload, FiEdit } from "react-icons/fi";
-import preview from "./preview";
-type Invoice = {
+
+type Ledger = {
   id: string;
-  invoiceNumber: string;
-  invoiceDate: string;
-  typeOfWork: string;
-  grandTotal: number;
-  invoice:{
-    content:string,
-    fileName:string,
-    encoding:string
-  }
+  date: string;
+  name: string;
+  transactionType: string;
+  amount: number;
 };
 export type Column<T> = {
   key: keyof T | "actions"; // <-- allow actions explicitly
@@ -26,39 +20,52 @@ export type Column<T> = {
   render?: (row: T) => React.ReactNode;
 };
 
-const ViewInvoicePage = () => {
-const [invoices, setInvoices] = useState([])
+const ViewLedgerPage = () => {
+const [ledgers, setLedgers] = useState([])
 const [fetch, setFetch] = useState(0)
 const [currentPage, setCurrentPage] = useState(1);
 const [loading, setLoading] = useState(false)
 console.log("setCurrentPage", setCurrentPage)
-  const actions = [
-    { icon: FiEye, tooltip: "View", onClick: async (row: Invoice) => { await preview(row.invoice.content, row.invoice.fileName) }  },
-    { icon: FiDownload, tooltip: "Download", onClick: (row: Invoice) => console.log("Download", row), color: "text-green-500" },
-    { icon: FiEdit, tooltip: "Update", onClick: (row: Invoice) => console.log("Update", row), color: "text-yellow-500" },
-  ];
-  const columns: Column<Invoice>[] = [
-    { key: "invoiceNumber", label: "Invoice Number", sortable: true },
-    { key: "invoiceDate", label: "Invoice Date", sortable: true },
-    { key: "typeOfWork", label: "Type of Work", sortable: true },
-    { key: "grandTotal", label: "Grand Total", sortable: true, render: (row) => row.grandTotal },
+
+  const columns: Column<Ledger>[] = [
+    { key: "date", label: "Date", sortable: true },
+    { key: "name", label: "Particulars", sortable: true },
+    {
+      key: "transactionType",
+      label: "Transaction Type",
+      sortable: true,
+      render: (row) => (
+        <div
+          className={`px-3 py-1 rounded-full text-sm font-medium w-fit ${
+            row.transactionType === "CREDIT"
+              ? "bg-green-100 text-green-700"
+              : row.transactionType === "DEBIT"
+              ? "bg-red-100 text-red-700"
+              : "bg-gray-100 text-gray-700"
+          }`}
+        >
+          {row.transactionType}
+        </div>
+      ),
+    },
+    { key: "amount", label: "Amount", sortable: true },
     { key: "actions", label: "Actions" },
   ];
   useEffect(() => {
     async function getInvoice() {
         try {
             setLoading(true)
-            const res = await doGet('interiors/invoice/all', {});
+            const res = await doGet('interiors/ledger/search', {});
             if (res.success === true) {
-              const formattedData = (res.data as Invoice[]).map((invoice) => ({
-                ...invoice,
-                invoiceDate: invoice.invoiceDate ? new Date(invoice.invoiceDate).toLocaleDateString('en-GB', {
+              const formattedData = (res.data as Ledger[]).map((ledger) => ({
+                ...ledger,
+                date: ledger.date ? new Date(ledger.date).toLocaleDateString('en-GB', {
                   day: 'numeric',
                   month: 'short',
                   year: 'numeric'
               }).replace(',', '') : undefined,
               }));
-              setInvoices(formattedData as [])
+              setLedgers(formattedData as [])
             }
             setLoading(false)
         } catch (error: any) {
@@ -77,11 +84,10 @@ console.log("setCurrentPage", setCurrentPage)
   return (
     <>
       <FullScreenLoader loading={loading} color="#4F46E5" size={80} />
-      <Breadcrumb pageName="View Invoices" />
-      <DataTable 
-        data={invoices} 
-        columns={columns} 
-        actions={actions} 
+      <Breadcrumb pageName="Ledger" />
+      <DataTable
+        data={ledgers}
+        columns={columns}
         currentPage = {currentPage}
         setCurrentPage= {setCurrentPage}
       />
@@ -89,4 +95,4 @@ console.log("setCurrentPage", setCurrentPage)
   );
 };
 
-export default ViewInvoicePage;
+export default ViewLedgerPage;

@@ -94,9 +94,7 @@ export async function getPaymentsOverviewData(
   };
 }
 
-export async function getWeeksProfitData(timeFrame?: string) {
-  // Fake delay
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+export function getWeeksProfitData(timeFrame?: string) {
 
   if (timeFrame === "last week") {
     return {

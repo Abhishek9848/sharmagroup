@@ -1,19 +1,21 @@
+"use client";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_PROXY as string;
-console.log("some", BASE_URL);
 // OR if you're using CRA: const BASE_URL = process.env.REACT_APP_BACKEND_PROXY as string;
 
 const apiInstance = axios.create({
   baseURL: BASE_URL,
-  timeout: 15000,
+  timeout: 60000,
 });
 
 // ✅ Auth Header Helper
+// ✅ Safe localStorage getter
 const getAuthHeaders = (): Record<string, string> => {
-  const token = localStorage.getItem("token");
-  return {
-    Authorization: token ? `Bearer ${token}` : "",
-  };
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("token");
+    return { Authorization: token ? `Bearer ${token}` : "" };
+  }
+  return {}; // server side: return empty headers
 };
 
 // ✅ GET
