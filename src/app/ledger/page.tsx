@@ -36,7 +36,7 @@ console.log("setCurrentPage", setCurrentPage)
       sortable: true,
       render: (row) => (
         <div
-          className={`px-3 py-1 rounded-full text-sm font-medium w-fit ${
+          className={`px-3 py-1 rounded-lg text-sm font-medium w-fit ${
             row.transactionType === "CREDIT"
               ? "bg-green-100 text-green-700"
               : row.transactionType === "DEBIT"

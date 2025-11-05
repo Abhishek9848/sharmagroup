@@ -19,23 +19,11 @@ export function Header() {
     <header className="sticky top-0 z-30 flex items-center justify-between border-b border-stroke bg-white px-4 py-2 shadow-1 dark:border-stroke-dark dark:bg-gray-dark md:px-5 2xl:px-10">
       <button
         onClick={toggleSidebar}
-        className="rounded-lg border px-1.5 py-1 dark:border-stroke-dark dark:bg-[#020D1A] hover:dark:bg-[#FFFFFF1A] lg:hidden"
+        className="rounded-lg border px-1.5 py-1 mr-4 dark:border-stroke-dark dark:bg-[#020D1A] hover:dark:bg-[#FFFFFF1A] lg:hidden"
       >
         <MenuIcon />
         <span className="sr-only">Toggle Sidebar</span>
       </button>
-
-      {isMobile && (
-        <Link href={"/"} className="ml-2 max-[430px]:hidden min-[375px]:ml-4">
-          <Image
-            src={"/images/logo/logo-icon.svg"}
-            width={32}
-            height={32}
-            alt=""
-            role="presentation"
-          />
-        </Link>
-      )}
 
       <div className="flex flex-1 items-center justify-end gap-2 min-[375px]:gap-4">
         <div className="relative w-full max-w-[300px]">
@@ -49,9 +37,9 @@ export function Header() {
         </div>
 
         <ThemeToggleSwitch />
-        <CompanyToggleSwitch />
+        {!isMobile && <CompanyToggleSwitch /> }
 
-        <div className="p-2 text-base text-[#4B5563] dark:text-dark-6">
+        {!isMobile && <div className="p-2 text-base text-[#4B5563] dark:text-dark-6">
           <button
             className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-[9px] hover:bg-gray-2 hover:text-dark dark:hover:bg-dark-3 dark:hover:text-white"
             onClick={() => handleSignOut}
@@ -60,7 +48,7 @@ export function Header() {
             <span className="text-base font-medium">Log out</span>
             <LogOutIcon />
           </button>
-        </div>
+        </div>}
       </div>
     </header>
   );

@@ -1,14 +1,22 @@
 "use client";
 import React, { useState, useMemo, Dispatch, SetStateAction } from "react";
 import { FiChevronDown, FiChevronUp, FiTrash2, FiEdit2, FiEye } from "react-icons/fi";
+import FilterSection from "./FilterSection";
+import { FilterField } from "./types";
 
 export type Column<T> = {
   key: keyof T | "actions";
   label: string;
+  width?: string;
   sortable?: boolean;
   render?: (row: T) => React.ReactNode;
 };
 
+type FilterConfig = {
+  fields: FilterField[];
+  onSearch: () => void;
+  onReset: () => void;
+};
 type DataTableProps<T> = {
   data: T[];
   columns: Column<T>[];
@@ -22,6 +30,7 @@ type DataTableProps<T> = {
   rowsPerPage?: number;
   currentPage?: number;
   setCurrentPage?: Dispatch<SetStateAction<number>>;
+  filters?:FilterConfig
 };
 
 export const DataTable = <T extends Record<string, any>>({
@@ -31,7 +40,8 @@ export const DataTable = <T extends Record<string, any>>({
   searchPlaceholder = "Search...",
   rowsPerPage = 20,
   currentPage = 1,
-  setCurrentPage
+  setCurrentPage,
+  filters
 }: DataTableProps<T>) => {
   const [sortColumn, setSortColumn] = useState<keyof T | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
@@ -95,25 +105,16 @@ export const DataTable = <T extends Record<string, any>>({
   };
 
   return (
-    <div className="bg-white shadow-md rounded-xl p-4 overflow-hidden border border-gray-100">
+    <div className="bg-white shadow-md rounded-xl p-4 overflow-x-auto border border-gray-100">
       {/* Search bar */}
-      <div className="mb-4 flex justify-between items-center">
-        <input
-          type="text"
-          placeholder={searchPlaceholder}
-          className="border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 p-2 rounded-lg w-full max-w-sm"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+      
+      {filters && (
+        <FilterSection
+          fields={filters.fields}
+          onSearch={filters.onSearch}
+          onReset={filters.onReset}
         />
-        <div className="flex gap-2 ml-4">
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
-            Add User
-          </button>
-          <button className="border px-4 py-2 rounded-lg hover:bg-gray-100 text-sm">
-            Export CSV
-          </button>
-        </div>
-      </div>
+      )}
 
       {/* Table */}
       <table className="min-w-full text-sm text-gray-700">
@@ -134,6 +135,7 @@ export const DataTable = <T extends Record<string, any>>({
                 className={`px-6 py-3 text-left font-medium ${
                   col.sortable ? "cursor-pointer select-none" : ""
                 }`}
+                style={{ width: col.width }}
               >
                 <div className="flex items-center gap-1">
                   {col.label}
@@ -167,7 +169,7 @@ export const DataTable = <T extends Record<string, any>>({
                   />
                 </td>
                 {columns.map((col) => (
-                  <td key={col.key as string} className="px-6 py-4 whitespace-nowrap">
+                  <td key={col.key as string} className="px-4 py-4 whitespace-nowrap" style={{ width: col.width }} >
                     {col.key === "actions" && actions ? (
                       <div className="flex space-x-3 justify-end">
                         {actions.map((action, i) => {

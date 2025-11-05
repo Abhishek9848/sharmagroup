@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import FullScreenLoader from '../ui/loader';
 import toast from 'react-hot-toast';
 import { doPost } from '@/services/network.service';
-import DatePickerOne, { DatePickerOneRef } from "../FormElements/DatePicker/DatePickerOne";
+import DatePickerOne from "../FormElements/DatePicker/DatePickerOne";
 import InputGroup from '../FormElements/InputGroup';
 import AutocompleteInput from '../FormElements/InputGroup/auto-complete';
 
@@ -15,7 +15,6 @@ const AddAccount = () => {
     const [transactionType, setTransactionType] = useState('')
     const [reason, setReason] = useState('')
     const [amount, setAmount] = useState(0)
-    const datePickerRef = useRef<DatePickerOneRef>(null);
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         let currentError = "";
@@ -47,7 +46,6 @@ const AddAccount = () => {
             setDate("")
             setName('')
             setReason('')
-            datePickerRef.current?.clear();
             setTransactionType('')
             setAmount(0)
             toast.success(response.message)
@@ -73,7 +71,6 @@ const AddAccount = () => {
             }}>
               <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                 <DatePickerOne
-                  ref={datePickerRef}
                   name="invoiceDate"
                   label="Invoice Date"
                   defaultValue={date}

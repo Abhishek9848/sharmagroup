@@ -33,7 +33,6 @@ const AddInvoice = () => {
   const [roundOff, setRoundOff] = useState(0);
   const [workDetails, setWorkDetails] = useState(initialWorkDetails);
   const [loading, setLoading] = useState(false);
-  const datePickerRef = useRef<DatePickerOneRef>(null);
   const rangePickerRef = useRef<DateRangePickerRef>(null);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,7 +83,6 @@ const AddInvoice = () => {
       if (response.success === true) {
         setWorkDetails(initialWorkDetails)
         setInvoiceDate('')
-        datePickerRef.current?.clear();
         setInvoiceNumber('')
         setTypeOfWork('')
         setRange("")
@@ -167,7 +165,6 @@ const AddInvoice = () => {
         }}>
           <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
             <DatePickerOne
-              ref={datePickerRef}
               name="invoiceDate"
               label="Invoice Date"
               defaultValue={invoiceDate}

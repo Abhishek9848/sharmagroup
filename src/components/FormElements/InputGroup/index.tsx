@@ -4,7 +4,7 @@ import { type HTMLInputTypeAttribute, useId } from "react";
 type InputGroupProps = {
   className?: string;
   width?: string;
-  label: string;
+  label?: string;
   placeholder: string;
   type: HTMLInputTypeAttribute;
   fileStyleVariant?: "style1" | "style2";
@@ -38,13 +38,13 @@ const InputGroup: React.FC<InputGroupProps> = ({
 
   return (
     <div className={className}>
-      <label
+      {label && <label
         htmlFor={id}
         className="text-body-sm font-medium text-dark dark:text-white"
       >
         {label}
         {required && <span className="ml-1 select-none text-red">*</span>}
-      </label>
+      </label>}
 
       <div
         className={cn(

@@ -94,6 +94,8 @@ const config: Config = {
             4: "#FFFBEB",
           },
         },
+        backgroundColor: "#00BCD4", // teal circle
+      brightColor: "#26D7E7",     // lighter hover shade
       },
       fontSize: {
         "heading-1": ["60px", "72px"],

@@ -1,32 +1,45 @@
 import Link from "next/link";
-import GoogleSigninButton from "../GoogleSigninButton";
 import SigninWithPassword from "../SigninWithPassword";
 
-export default function Signin() {
+export default function SignInForm({
+  buttonClasses,
+  buttonForGFT,
+}: {
+  buttonClasses?: string;
+  buttonForGFT?: string;
+}) {
   return (
-    <>
-      <GoogleSigninButton text="Sign in" />
+    <div
+      className="w-full max-w-md bg-white shadow-md rounded-2xl px-8 py-10 
+      flex flex-col items-center justify-center text-center"
+    >
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        Welcome Back 👋
+      </h2>
 
-      <div className="my-6 flex items-center justify-center">
-        <span className="block h-px w-full bg-stroke dark:bg-dark-3"></span>
-        <div className="block w-full min-w-fit bg-white px-3 text-center font-medium dark:bg-gray-dark">
-          Or sign in with email
-        </div>
-        <span className="block h-px w-full bg-stroke dark:bg-dark-3"></span>
+
+      {/* Email/Password Form */}
+      <div className="w-full">
+        <SigninWithPassword buttonClasses={buttonClasses} />
       </div>
 
-      <div>
-        <SigninWithPassword />
-      </div>
-
-      <div className="mt-6 text-center">
-        <p>
-          Don’t have any account?{" "}
-          <Link href="/auth/sign-up" className="text-primary">
+      {/* Footer */}
+      <div className="mt-6 text-center text-sm">
+        <p className="text-gray-600">
+          Don’t have an account?{" "}
+          <button
+            type="button"
+            id="sign-up-btn"
+            className="text-backgroundColor font-semibold hover:underline"
+            onClick={() => {
+              const btn = document.getElementById("sign-up-btn");
+              if (btn) btn.click();
+            }}
+          >
             Sign Up
-          </Link>
+          </button>
         </p>
       </div>
-    </>
+    </div>
   );
 }

@@ -5,31 +5,26 @@ import React, { useState } from "react";
 import InputGroup from "../FormElements/InputGroup";
 import { Checkbox } from "../FormElements/checkbox";
 
-export default function SigninWithPassword() {
+export default function SigninWithPassword({
+  buttonClasses,
+}: {
+  buttonClasses?: string;
+}) {
   const [data, setData] = useState({
     email: process.env.NEXT_PUBLIC_DEMO_USER_MAIL || "",
     password: process.env.NEXT_PUBLIC_DEMO_USER_PASS || "",
     remember: false,
   });
-
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
+    setData({ ...data, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // You can remove this code block
     setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    setTimeout(() => setLoading(false), 1000);
   };
 
   return (
@@ -56,7 +51,7 @@ export default function SigninWithPassword() {
         icon={<PasswordIcon />}
       />
 
-      <div className="mb-6 flex items-center justify-between gap-2 py-2 font-medium">
+      <div className="mb-6 flex flex-col sm:flex-row items-center justify-between gap-2 py-2 font-medium">
         <Checkbox
           label="Remember me"
           name="remember"
@@ -64,13 +59,9 @@ export default function SigninWithPassword() {
           minimal
           radius="md"
           onChange={(e) =>
-            setData({
-              ...data,
-              remember: e.target.checked,
-            })
+            setData({ ...data, remember: e.target.checked })
           }
         />
-
         <Link
           href="/auth/forgot-password"
           className="hover:text-primary dark:text-white dark:hover:text-primary"
@@ -82,7 +73,10 @@ export default function SigninWithPassword() {
       <div className="mb-4.5">
         <button
           type="submit"
-          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
+          className={
+            buttonClasses ||
+            "flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:scale-[1.02] hover:shadow-md"
+          }
         >
           Sign In
           {loading && (

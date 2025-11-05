@@ -8,7 +8,7 @@ type DatePickerOneProps = {
   name: string;
   label?: string;
   onChange?: (value: string) => void;
-  defaultValue?: string;
+  defaultValue?: string; // use this to control or clear externally
 };
 
 export type DatePickerOneRef = {
@@ -25,6 +25,7 @@ const DatePickerOne = forwardRef<DatePickerOneRef, DatePickerOneProps>(
       clear: () => pickerRef.current?.clear(),
     }));
 
+    // Initialize flatpickr once
     useEffect(() => {
       if (inputRef.current) {
         pickerRef.current = flatpickr(inputRef.current, {
@@ -41,12 +42,19 @@ const DatePickerOne = forwardRef<DatePickerOneRef, DatePickerOneProps>(
       }
     }, [onChange]);
 
+    // ✅ Reactively update when defaultValue changes (for reset)
+    useEffect(() => {
+      if (!pickerRef.current) return;
+      if (defaultValue) pickerRef.current.setDate(defaultValue, true);
+      else pickerRef.current.clear();
+    }, [defaultValue]);
+
     return (
       <div>
         {label && (
           <label
             htmlFor={name}
-            className="mb-3 block text-body-sm font-medium text-dark dark:text-white"
+            className="mb-3.5 block text-body-sm font-medium text-dark dark:text-white"
           >
             {label}
           </label>
@@ -56,8 +64,9 @@ const DatePickerOne = forwardRef<DatePickerOneRef, DatePickerOneProps>(
             ref={inputRef}
             id={name}
             name={name}
-            className="form-datepicker w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal outline-none transition focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary"
+            className="form-datepicker w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-2.5 font-normal outline-none transition focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary"
             placeholder="Select date"
+            readOnly
           />
           <div className="pointer-events-none absolute inset-0 left-auto right-5 flex items-center">
             <Calendar className="size-5 text-[#9CA3AF]" />
