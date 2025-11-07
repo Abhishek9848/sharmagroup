@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } else if (user && isPublicRoute) {
       router.replace("/");
     }
-  }, [user, pathname, loading, router]);
+  }, [user, pathname, loading, router, publicRoutes]);
 
   const login = async (username: string, password: string, remember: boolean) => {
     if (username === "admin" && password === "1234") {
