@@ -12,7 +12,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const isAuthPage = authRoutes.includes(pathname);
 console.log("isAuthPage-->",  isAuthPage)
   return (
-    <AuthProvider>
+    <AuthProvider >
       {isAuthPage ? (
         <main className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-[#020d1a]">
           <SlidingLoginSignup />

@@ -1,12 +1,15 @@
 import Link from "next/link";
 import SigninWithPassword from "../SigninWithPassword";
+import { Dispatch, SetStateAction } from "react";
 
 export default function SignInForm({
   buttonClasses,
   buttonForGFT,
+  setIsSignUpMode
 }: {
   buttonClasses?: string;
   buttonForGFT?: string;
+  setIsSignUpMode:React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
     <div
@@ -31,10 +34,7 @@ export default function SignInForm({
             type="button"
             id="sign-up-btn"
             className="text-backgroundColor font-semibold hover:underline"
-            onClick={() => {
-              const btn = document.getElementById("sign-up-btn");
-              if (btn) btn.click();
-            }}
+            onClick={() => setIsSignUpMode(true)}
           >
             Sign Up
           </button>

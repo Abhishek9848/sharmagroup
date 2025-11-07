@@ -1,10 +1,11 @@
 "use client";
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface AuthContextType {
   user: string | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string, remember:boolean) => Promise<void>;
   logout: () => void;
   loading: boolean;
 }
@@ -38,14 +39,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [user, pathname, loading, router]);
 
-  const login = async (email: string, password: string) => {
+  const login = async (username: string, password: string, remember: boolean) => {
     // Mock login — replace with your API
-    if (email === "admin@example.com" && password === "1234") {
-      localStorage.setItem("user", email);
-      setUser(email);
-      router.push("/dashboard");
+    if (username === "admin" && password === "1234") {
+      localStorage.setItem("user", username);
+      setUser(username);
+      router.push("/");
     } else {
-      alert("Invalid credentials");
+      toast.error("Invalid Credentails")
     }
   };
 

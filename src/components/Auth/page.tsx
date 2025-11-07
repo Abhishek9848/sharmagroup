@@ -58,6 +58,7 @@ const SlidingLoginSignup = () => {
             <SignInForm
               buttonClasses={buttonClasses}
               buttonForGFT={buttonForGFT}
+              setIsSignUpMode ={setIsSignUpMode}
             />
           </div>
 
@@ -72,6 +73,7 @@ const SlidingLoginSignup = () => {
             <SignUpForm
               buttonClasses={buttonClasses}
               buttonForGFT={buttonForGFT}
+              setIsSignUpMode ={setIsSignUpMode}
             />
           </div>
         </div>

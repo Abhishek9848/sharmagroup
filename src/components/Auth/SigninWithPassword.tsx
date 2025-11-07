@@ -4,15 +4,17 @@ import Link from "next/link";
 import React, { useState } from "react";
 import InputGroup from "../FormElements/InputGroup";
 import { Checkbox } from "../FormElements/checkbox";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SigninWithPassword({
   buttonClasses,
 }: {
   buttonClasses?: string;
 }) {
+    const { login } = useAuth();          
   const [data, setData] = useState({
-    email: process.env.NEXT_PUBLIC_DEMO_USER_MAIL || "",
-    password: process.env.NEXT_PUBLIC_DEMO_USER_PASS || "",
+    username: "",
+    password: "",
     remember: false,
   });
   const [loading, setLoading] = useState(false);
@@ -24,19 +26,20 @@ export default function SigninWithPassword({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => setLoading(false), 1000);
+    login(data.username, data.password , data.remember)
+    setLoading(false)
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <InputGroup
-        type="email"
-        label="Email"
+        type="text"
+        label="Username"
         className="mb-4 [&_input]:py-[15px]"
-        placeholder="Enter your email"
-        name="email"
+        placeholder="Enter your username"
+        name="username"
         handleChange={handleChange}
-        value={data.email}
+        value={data.username}
         icon={<EmailIcon />}
       />
 
@@ -63,7 +66,7 @@ export default function SigninWithPassword({
           }
         />
         <Link
-          href="/auth/forgot-password"
+          href="/forgot-password"
           className="hover:text-primary dark:text-white dark:hover:text-primary"
         >
           Forgot Password?
