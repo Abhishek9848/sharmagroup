@@ -1,20 +1,16 @@
 "use client";
 
 import { SearchIcon } from "@/assets/icons";
-import Image from "next/image";
-import Link from "next/link";
 import { useSidebarContext } from "../sidebar/sidebar-context";
 import { MenuIcon } from "./icons";
-import { Notification } from "./notification";
 import { ThemeToggleSwitch } from "./theme-toggle";
-import { UserInfo } from "./user-info";
 import { CompanyToggleSwitch } from "./company-toggle";
 import { LogOutIcon } from "./user-info/icons";
-import { useStateContext } from '@/context/ContextProvider';
+import { useAuth } from "@/context/AuthContext";
 
 export function Header() {
   const { toggleSidebar, isMobile } = useSidebarContext();
-  const  handleSignOut  = useStateContext();
+   const { logout } = useAuth();
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between border-b border-stroke bg-white px-4 py-2 shadow-1 dark:border-stroke-dark dark:bg-gray-dark md:px-5 2xl:px-10">
       <button
@@ -42,9 +38,11 @@ export function Header() {
         {!isMobile && <div className="p-2 text-base text-[#4B5563] dark:text-dark-6">
           <button
             className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-[9px] hover:bg-gray-2 hover:text-dark dark:hover:bg-dark-3 dark:hover:text-white"
-            onClick={() => handleSignOut}
+            onClick={()=>{
+              console.log("logout")
+              logout()
+            }}
           >
-
             <span className="text-base font-medium">Log out</span>
             <LogOutIcon />
           </button>

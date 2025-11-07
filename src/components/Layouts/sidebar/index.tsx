@@ -12,15 +12,14 @@ import { useSidebarContext } from "./sidebar-context";
 import { CompanyToggleSwitch } from "../header/company-toggle";
 import { LogOutIcon } from "../header/user-info/icons";
 import { useStateContext } from "@/context/ContextProvider";
-
+import { useAuth } from "@/context/AuthContext";
 export function Sidebar() {
   const pathname = usePathname();
   const { setIsOpen, isOpen, isMobile, toggleSidebar } = useSidebarContext();
-  const { currentProfile, handleSignOut } = useStateContext() as {
+  const { currentProfile } = useStateContext() as {
     currentProfile: keyof typeof NAV_DATA;
-    handleSignOut: () => void;
   };
-
+   const { logout } = useAuth();  
   return (
     <>
       {/* Mobile Overlay */}
@@ -112,7 +111,7 @@ export function Sidebar() {
         {isMobile && <div className="p-2 text-base text-[#4B5563] dark:text-dark-6">
                   <button
                     className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-[9px] hover:bg-gray-2 hover:text-dark dark:hover:bg-dark-3 dark:hover:text-white"
-                    onClick={() => handleSignOut}
+                    onClick={logout}
                   >
                     <span className="text-base font-medium">Log out</span>
                     <LogOutIcon />

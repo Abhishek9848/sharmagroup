@@ -10,7 +10,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const pathname = usePathname();
   const authRoutes = ["/login", "/register", "/forgot-password"];
   const isAuthPage = authRoutes.includes(pathname);
-console.log("isAuthPage-->",  isAuthPage)
   return (
     <AuthProvider >
       {isAuthPage ? (

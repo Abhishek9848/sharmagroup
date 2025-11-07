@@ -89,7 +89,6 @@ const ViewInvoicePage = () => {
       tooltip: "Mark as Paid",
       color: "text-yellow-500",
       onClick: (row: Invoice) => {
-        console.log("inside mark ")
         setSelectedInvoice(row);
         setMarkAsPaidModal(true)
       },
@@ -158,7 +157,6 @@ const ViewInvoicePage = () => {
       let newTo = to;
       if (from) {
         const [day, month, year] = from.split("-");
-        console.log("from" , {day, month, year})
         newFrom = new Date(+year, +month, +day).toISOString().split("T")[0];
       }
   
@@ -204,6 +202,56 @@ const ViewInvoicePage = () => {
   }
 
   useEffect(() => {
+    async function getInvoice() {
+    setLoading(true);
+    try {
+      let newFrom  = from;
+      let newTo = to;
+      if (from) {
+        const [day, month, year] = from.split("-");
+        newFrom = new Date(+year, +month, +day).toISOString().split("T")[0];
+      }
+  
+      if (to) {
+        const [day, month, year] = to.split("-");
+        newTo = new Date(+year, +month, +day).toISOString().split("T")[0];
+      }
+      const res = await doGet("invoice/fetchby", { from : newFrom, to : newTo, invoiceNumber });
+
+      if (res.success) {
+        const formattedData = res.data.map((invoice: Invoice) => ({
+          ...invoice,
+          billingDate: invoice.billingDate
+            ? new Date(invoice.billingDate)
+                .toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })
+                .replace(",", "")
+            : "",
+            paidOn: invoice.paidOn
+            ? new Date(invoice.paidOn)
+                .toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })
+                .replace(",", "")
+            : "",
+        }));
+
+        setInvoices(formattedData);
+        filters.onReset();
+      }
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || "Something went wrong";
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
+  }
     getInvoice();
   }, [fetch]);
 

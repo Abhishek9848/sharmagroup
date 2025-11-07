@@ -62,7 +62,6 @@ const MarkAsPaidModal = ({ isOpen, onClose, invoice }: MarkAsPaidModalProps) => 
         isFullyPaid: paidAmount === invoice?.grandTotal
       };
       const res = await doPut(`/invoice/update/${invoice?._id}`, payload);
-      console.log("res-->>", res)
       if (res.status) {
         toast.success("Invoice updated successfully");
         onClose();

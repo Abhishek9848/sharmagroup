@@ -8,7 +8,7 @@ type DatePickerOneProps = {
   name: string;
   label?: string;
   onChange?: (value: string) => void;
-  defaultValue?: string; // use this to control or clear externally
+  defaultValue?: string; // controlled externally
 };
 
 export type DatePickerOneRef = {
@@ -25,28 +25,35 @@ const DatePickerOne = forwardRef<DatePickerOneRef, DatePickerOneProps>(
       clear: () => pickerRef.current?.clear(),
     }));
 
-    // Initialize flatpickr once
+    // Initialize Flatpickr once
     useEffect(() => {
-      if (inputRef.current) {
-        pickerRef.current = flatpickr(inputRef.current, {
-          mode: "single",
-          monthSelectorType: "static",
-          dateFormat: "d-m-Y",
-          defaultDate: defaultValue || undefined,
-          onChange: (selectedDates, dateStr) => {
-            if (onChange) onChange(dateStr);
-          },
-        });
+      if (!inputRef.current) return;
 
-        return () => pickerRef.current?.destroy();
-      }
+      const picker = flatpickr(inputRef.current, {
+        mode: "single",
+        monthSelectorType: "static",
+        dateFormat: "d-m-Y",
+        onChange: (selectedDates, dateStr) => onChange?.(dateStr),
+      });
+
+      pickerRef.current = picker;
+
+      return () => {
+        picker.destroy();
+        pickerRef.current = null;
+      };
     }, [onChange]);
 
-    // ✅ Reactively update when defaultValue changes (for reset)
+    // Reactively update when defaultValue changes (for reset or external control)
     useEffect(() => {
-      if (!pickerRef.current) return;
-      if (defaultValue) pickerRef.current.setDate(defaultValue, true);
-      else pickerRef.current.clear();
+      const picker = pickerRef.current;
+      if (!picker) return;
+
+      if (defaultValue) {
+        picker.setDate(defaultValue, true);
+      } else {
+        picker.clear();
+      }
     }, [defaultValue]);
 
     return (

@@ -1,11 +1,12 @@
 "use client";
+
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 
 interface AuthContextType {
   user: string | null;
-  login: (email: string, password: string, remember:boolean) => Promise<void>;
+  login: (email: string, password: string, remember: boolean) => Promise<void>;
   logout: () => void;
   loading: boolean;
 }
@@ -18,40 +19,47 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Public routes that don't require login
   const publicRoutes = ["/login", "/register", "/forgot-password"];
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("user") || sessionStorage.getItem("user");
     if (storedUser) setUser(storedUser);
     setLoading(false);
   }, []);
 
-  // 🚀 Auto-redirect logic
   useEffect(() => {
-    if (!loading) {
-      const isPublicRoute = publicRoutes.includes(pathname);
-      if (!user && !isPublicRoute) {
-        router.replace("/login");
-      } else if (user && isPublicRoute) {
-        router.replace("/dashboard");
-      }
+    if (loading) return;
+
+    const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route));
+
+    if (!user && !isPublicRoute) {
+      router.replace(`/login`);
+    } else if (user && isPublicRoute) {
+      router.replace("/");
     }
   }, [user, pathname, loading, router]);
 
   const login = async (username: string, password: string, remember: boolean) => {
-    // Mock login — replace with your API
     if (username === "admin" && password === "1234") {
-      localStorage.setItem("user", username);
+      if (remember) {
+        localStorage.setItem("user", username);
+      } else {
+        sessionStorage.setItem("user", username);
+      }
+
       setUser(username);
-      router.push("/");
+
+      const redirectTo = "/";
+      router.push(redirectTo);
     } else {
-      toast.error("Invalid Credentails")
+      toast.error("Invalid Credentials");
     }
   };
 
   const logout = () => {
+    console.log("logoiut")
     localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
     setUser(null);
     router.push("/login");
   };

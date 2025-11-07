@@ -47,7 +47,8 @@ const UpdateInvoiceModal = ({ isOpen, onClose, invoice }: UpdateInvoiceModalProp
   const [trips, setTrips] = useState<Trip[]>([]);
   const [total, setTotal] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
-console.log("trips-->>", trips)
+  const advance = invoice?.advance || 0
+
   useEffect(() => {
     if (invoice) {
       setTrips(invoice.trips || []);
@@ -75,8 +76,8 @@ console.log("trips-->>", trips)
       return sum + base + extras;
     }, 0);
     setTotal(newTotal);
-    setGrandTotal(newTotal - (invoice?.advance || 0));
-  }, [trips]);
+    setGrandTotal(newTotal - (advance || 0));
+  }, [trips, advance]);
 
   const handleUpdate = async () => {
     try {
@@ -148,7 +149,7 @@ console.log("trips-->>", trips)
           <div className="space-y-4">
             {trips.map((trip, i) => (
               <div
-                key={i}
+                key={`trip-${i}`}
                 className="rounded-lg border bg-gray-50 p-4 dark:bg-gray-800"
               >
                 <div className="flex items-center justify-between text-sm font-medium">
@@ -188,10 +189,10 @@ console.log("trips-->>", trips)
                 </div>
 
                 {trip.isExtraCharges && trip.extraCharges.length > 0 && (
-                  <div className="mt-3 space-y-2" key={i}>
+                  <div className="mt-3 space-y-2" key={"ExtraCharge header"}>
                     <p className="font-medium text-gray-600">Extra Charges:</p>
                     {trip.extraCharges.map((ex, j) => (
-                     <div className="flex items-center justify-between text-sm font-medium">
+                     <div className="flex items-center justify-between text-sm font-medium" key={`extraCharge-${j}`}>
                      <p>{ex.name}</p>
                      <InputGroup
                         key={j}

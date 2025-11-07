@@ -25,7 +25,6 @@ const [ledgers, setLedgers] = useState([])
 const [fetch, setFetch] = useState(0)
 const [currentPage, setCurrentPage] = useState(1);
 const [loading, setLoading] = useState(false)
-console.log("setCurrentPage", setCurrentPage)
 
   const columns: Column<Ledger>[] = [
     { key: "date", label: "Date", sortable: true },
