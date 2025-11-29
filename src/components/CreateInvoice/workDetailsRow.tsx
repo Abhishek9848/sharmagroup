@@ -106,7 +106,7 @@ const WorkDetailsRow = ({ rows, setRows }: WorkDetailsRowProps) => {
         <>
             {rows.map((row, rowIndex) => (
                 <div key={rowIndex} className="mb-8 border-b pb-4">
-                    <div key={rowIndex} className="mb-5.5 flex flex-col gap-1.5 sm:flex-row">
+                    <div key={rowIndex} className="mb-3.5 flex flex-col gap-1.5 sm:flex-row">
                         <DatePickerOne
                             name="date"
                             label="Date"
@@ -188,6 +188,7 @@ const WorkDetailsRow = ({ rows, setRows }: WorkDetailsRowProps) => {
                     </div>
                     <div className="flex gap-2.5 items-center mb-2">
                         <SwitcherThree
+                            id={`${rowIndex}`}
                             enabled={row.isExtraCharges}
                             setEnabled={(val) => handleRowChange(rowIndex, "isExtraCharges", val)}
                         />

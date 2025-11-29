@@ -48,7 +48,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
 
       <div
         className={cn(
-          "relative mt-3 [&_svg]:absolute [&_svg]:top-1/2 [&_svg]:-translate-y-1/2",
+          "relative mt-1 [&_svg]:absolute [&_svg]:top-1/2 [&_svg]:-translate-y-1/2",
           props.iconPosition === "left"
             ? "[&_svg]:left-4.5"
             : "[&_svg]:right-4.5",
@@ -69,7 +69,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
               ? getFileStyles(props.fileStyleVariant!)
               : "px-2.5 py-3 text-dark placeholder:text-dark-6 dark:text-white",
             props.iconPosition === "left" && "pl-2.5",
-            props.height === "sm" && "py-2.5",
+            props.height === "sm" && "py-1.5",
           )}
           required={required}
           disabled={disabled}

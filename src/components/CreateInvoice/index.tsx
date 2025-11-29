@@ -113,7 +113,7 @@ const CreateInvoice = () => {
         <form onSubmit={handleSubmit} onKeyDown={(e) => {
           if (e.key === "Enter") e.preventDefault();
         }}>
-          <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+          <div className="mb-3.5 flex flex-col gap-5.5 sm:flex-row">
             <DatePickerOne
               name="invoiceDate"
               label="Invoice Date"
@@ -135,6 +135,7 @@ const CreateInvoice = () => {
               type="text"
               name="invoiceNumber"
               label="Invoice Number"
+              height="sm"
               placeholder=""
               required
               value={invoiceNumber}
@@ -145,7 +146,7 @@ const CreateInvoice = () => {
             rows={workDetails}
             setRows={setWorkDetails}
           />
-          <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+          <div className="mb-3.5 flex flex-col gap-5.5 sm:flex-row">
             <InputGroup
               className="w-full sm:w-1/2"
               type="text"
@@ -166,7 +167,7 @@ const CreateInvoice = () => {
               handleChange={(e) => setTotal(+e.target.value)}
             />
           </div>
-          <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+          <div className="mb-3.5 flex flex-col gap-5.5 sm:flex-row">
             <InputGroup
               className="w-full sm:w-1/2"
               type="text"
@@ -187,7 +188,7 @@ const CreateInvoice = () => {
               handleChange={(e) => setAdvance(+e.target.value)}
             />
           </div>
-          <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+          <div className="mb-3.5 flex flex-col gap-5.5 sm:flex-row">
             <InputGroup
               className="w-full sm:w-1/2"
               type="text"

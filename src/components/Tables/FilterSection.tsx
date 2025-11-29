@@ -19,7 +19,7 @@ const FilterSection = ({ fields, onSearch, onReset }: FilterSectionProps) => {
     };
 
     return (
-        <div className="mb-5.5 flex flex-wrap items-end justify-between gap-5">
+        <div className="mb-3.5 flex flex-wrap items-end justify-between gap-5">
             <div className="flex flex-wrap gap-5">
                 {fields.map((field) =>
                 field.type === "text" ? (

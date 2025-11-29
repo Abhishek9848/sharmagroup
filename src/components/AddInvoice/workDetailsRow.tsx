@@ -62,7 +62,7 @@ const WorkDetailsRow = ({ suggestions, rows, setRows }: WorkDetailsRowProps) => 
     return (
         <>
             {rows.map((row, index) => (
-                <div key={index} className="mb-5.5 flex flex-col gap-3.5 sm:flex-row">
+                <div key={index} className="mb-3.5 flex flex-col gap-3.5 sm:flex-row">
                     <AutocompleteInput
                         id={`productDescriptions-${index}`}
                         label="Product Descriptions"

@@ -61,7 +61,7 @@ const DatePickerOne = forwardRef<DatePickerOneRef, DatePickerOneProps>(
         {label && (
           <label
             htmlFor={name}
-            className="mb-3.5 block text-body-sm font-medium text-dark dark:text-white"
+            className="mb-1 block text-body-sm font-medium text-dark dark:text-white"
           >
             {label}
           </label>
@@ -71,7 +71,7 @@ const DatePickerOne = forwardRef<DatePickerOneRef, DatePickerOneProps>(
             ref={inputRef}
             id={name}
             name={name}
-            className="form-datepicker w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-2.5 font-normal outline-none transition focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary"
+            className="form-datepicker w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-1.5 font-normal outline-none transition focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary"
             placeholder="Select date"
             readOnly
           />

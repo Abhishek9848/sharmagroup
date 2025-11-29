@@ -3,6 +3,7 @@ import { MdCreateNewFolder } from "react-icons/md";
 import { MdImageSearch } from "react-icons/md";
 import { MdMenuBook } from "react-icons/md";
 import { MdAccountTree } from "react-icons/md";
+import {ExpenseIcon} from "../icons"
 
 export const NAV_DATA = {
   sharmaRoadLines: [
@@ -53,6 +54,12 @@ export const NAV_DATA = {
           items: [],
         },
         {
+          title: "Expense",
+          url: "/expense",
+          icon: ExpenseIcon,
+          items: [],
+        },
+        {
           title: "Accounts",
           url: "/accounts",
           icon: MdAccountTree,
@@ -62,3 +69,4 @@ export const NAV_DATA = {
     },
   ],
 };
+

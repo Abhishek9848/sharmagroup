@@ -47,7 +47,7 @@ const UpdateInvoiceModal = ({ isOpen, onClose, invoice }: UpdateInvoiceModalProp
   const [trips, setTrips] = useState<Trip[]>([]);
   const [total, setTotal] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
-  const advance = invoice?.advance || 0
+  const [advance, setAdvance] = useState(invoice?.advance || 0);
 
   useEffect(() => {
     if (invoice) {
@@ -86,6 +86,7 @@ const UpdateInvoiceModal = ({ isOpen, onClose, invoice }: UpdateInvoiceModalProp
         id: invoice?._id,
         trips,
         total,
+        advance,
         grandTotal,
       };
       const res = await doPut(`/invoice/update/${invoice?._id}`, payload);
@@ -132,6 +133,7 @@ const UpdateInvoiceModal = ({ isOpen, onClose, invoice }: UpdateInvoiceModalProp
               label="Invoice Number"
               value={invoice.invoiceNumber}
               disabled
+              height="sm"
               placeholder=""
               handleChange={() => {}}
             />
@@ -141,6 +143,7 @@ const UpdateInvoiceModal = ({ isOpen, onClose, invoice }: UpdateInvoiceModalProp
               label="Client Name"
               value={invoice.clientName}
               disabled
+              height="sm"
               placeholder=""
               handleChange={() => {}}
             />
@@ -152,7 +155,7 @@ const UpdateInvoiceModal = ({ isOpen, onClose, invoice }: UpdateInvoiceModalProp
                 key={`trip-${i}`}
                 className="rounded-lg border bg-gray-50 p-4 dark:bg-gray-800"
               >
-                <div className="flex items-center justify-between text-sm font-medium">
+                <div className="flex items-end justify-between text-sm font-medium">
                   <div>
                     <p className="mb-1">Date</p>
                     {trip.date
@@ -181,6 +184,7 @@ const UpdateInvoiceModal = ({ isOpen, onClose, invoice }: UpdateInvoiceModalProp
                      key={i}
                     className="mt-[-10px]"
                     type="number"
+                    height="sm"
                     name="amount"
                     placeholder=""
                     value={trip.amount}
@@ -200,6 +204,7 @@ const UpdateInvoiceModal = ({ isOpen, onClose, invoice }: UpdateInvoiceModalProp
                         type="number"
                         name={`extra-${j}`}
                         placeholder=""
+                        height="sm"
                         value={ex.amount}
                         handleChange={(e) =>
                           handleExtraAmountChange(i, j, e.target.value)
@@ -214,14 +219,38 @@ const UpdateInvoiceModal = ({ isOpen, onClose, invoice }: UpdateInvoiceModalProp
           </div>
 
           <div className="mt-6 flex items-center justify-between border-t pt-4">
-            <div>
-              <p className="font-medium text-gray-700">Total: ₹{total}</p>
-              <p className="text-sm text-gray-500">
-                Advance: ₹{invoice.advance}
-              </p>
-              <p className="font-semibold text-gray-800">
-                Grand Total: ₹{grandTotal}
-              </p>
+            <div className="mb-3.5 flex flex-col gap-5.5 sm:flex-row">
+              <InputGroup
+                className="w-full sm:w-1/2"
+                type="text"
+                name="clientName"
+                label="Total"
+                disabled
+                placeholder=""
+                height="sm"
+                value={`${total}`}
+              />
+              <InputGroup
+                key="advance"
+                className="w-full sm:w-1/2"
+                type="number"
+                name="advance"
+                label="Advance"
+                placeholder=""
+                height="sm"
+                value={`${advance}`}
+                handleChange={(e) => setAdvance(+e.target.value)}
+              />
+              <InputGroup
+                className="w-full sm:w-1/2"
+                type="text"
+                name="clientName"
+                label="Grand Total"
+                disabled
+                placeholder=""
+                height="sm"
+                value={`${grandTotal}`}
+              />
             </div>
             <button
               onClick={handleUpdate}

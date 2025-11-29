@@ -163,7 +163,7 @@ const AddInvoice = () => {
         <form onSubmit={handleSubmit} onKeyDown={(e) => {
           if (e.key === "Enter") e.preventDefault();
         }}>
-          <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+          <div className="mb-3.5 flex flex-col gap-5.5 sm:flex-row">
             <DatePickerOne
               name="invoiceDate"
               label="Invoice Date"
@@ -202,7 +202,7 @@ const AddInvoice = () => {
             rows={workDetails}
             setRows={setWorkDetails}
           />
-          <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+          <div className="mb-3.5 flex flex-col gap-5.5 sm:flex-row">
             <InputGroup
               className="w-full sm:w-1/2"
               type="text"
@@ -223,7 +223,7 @@ const AddInvoice = () => {
               handleChange={(e) => setTotal(+e.target.value)}
             />
           </div>
-          <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+          <div className="mb-3.5 flex flex-col gap-5.5 sm:flex-row">
             <InputGroup
               className="w-full sm:w-1/2"
               type="text"
@@ -244,7 +244,7 @@ const AddInvoice = () => {
               handleChange={(e) => setTotalIgst(+e.target.value)}
             />
           </div>
-          <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+          <div className="mb-3.5 flex flex-col gap-5.5 sm:flex-row">
             <InputGroup
               className="w-full sm:w-1/2"
               type="text"
@@ -265,7 +265,7 @@ const AddInvoice = () => {
               handleChange={(e) => setRoundOff(+e.target.value)}
             />
           </div>
-          <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+          <div className="mb-3.5 flex flex-col gap-5.5 sm:flex-row">
             <InputGroup
               className="w-full sm:w-1/2"
               type="text"

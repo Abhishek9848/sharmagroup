@@ -69,7 +69,7 @@ const AddAccount = () => {
             <form onSubmit={handleSubmit} onKeyDown={(e) => {
               if (e.key === "Enter") e.preventDefault();
             }}>
-              <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
+              <div className="mb-3.5 flex flex-col gap-5.5 sm:flex-row">
                 <DatePickerOne
                   name="invoiceDate"
                   label="Invoice Date"

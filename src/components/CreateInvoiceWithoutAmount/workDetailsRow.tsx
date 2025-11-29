@@ -41,7 +41,7 @@ const WorkDetailsRow = ({ rows, setRows }: WorkDetailsRowProps) => {
     extraIndex?: number
   ): void {
     const updatedRows = [...rows];
-
+    
     if (typeof extraIndex === "number") {
       // Nested extra charge field update
       const extraCharges = [...updatedRows[rowIndex].extraCharges];
@@ -61,7 +61,7 @@ const WorkDetailsRow = ({ rows, setRows }: WorkDetailsRowProps) => {
       // Normal row-level update
       updatedRows[rowIndex] = { ...updatedRows[rowIndex], [field]: value };
     }
-
+console.log("updatedRows->>", updatedRows)
     setRows(updatedRows);
   }
 
@@ -107,7 +107,7 @@ const WorkDetailsRow = ({ rows, setRows }: WorkDetailsRowProps) => {
     <>
       {rows.map((row, rowIndex) => (
         <div key={rowIndex} className="mb-8 border-b pb-4">
-          <div className="mb-5.5 flex flex-col gap-1.5 sm:flex-row items-end">
+          <div className="mb-3.5 flex flex-col gap-1.5 sm:flex-row items-end">
             <DatePickerOne
               name="date"
               label="Date"
@@ -155,6 +155,7 @@ const WorkDetailsRow = ({ rows, setRows }: WorkDetailsRowProps) => {
 
           <div className="flex gap-2.5 items-center mb-2">
             <SwitcherThree
+              id={`${rowIndex}`}
               enabled={row.isExtraCharges}
               setEnabled={(val) => handleRowChange(rowIndex, "isExtraCharges", val)}
             />

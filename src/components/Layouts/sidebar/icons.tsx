@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { SVGProps } from "react";
 
 export type PropsType = SVGProps<SVGSVGElement>;
@@ -184,5 +185,16 @@ export function ArrowLeftIcon(props: PropsType) {
         fill=""
       />
     </svg>
+  );
+}
+export function ExpenseIcon(props: React.ComponentProps<"img">) {
+  return (
+    <Image
+      src="./expense.png"
+      alt="Expense Icon"
+      width={30}
+      height={30}
+      className=""
+    />
   );
 }
