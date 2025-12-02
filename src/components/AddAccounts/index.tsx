@@ -81,6 +81,7 @@ const AddAccount = () => {
                   type="text"
                   name="Name"
                   required
+                  height="sm"
                   label="On Account of"
                   placeholder=""
                   value={name}
@@ -92,16 +93,20 @@ const AddAccount = () => {
                   name="reason"
                   label="Reason"
                   placeholder=""
+                  height="sm"
                   value={reason}
                   handleChange={(e) => setReason(e.target.value)}
                 />
-                <AutocompleteInput
-                    id={`typeOfTransaction`}
-                    label="Type"
-                    suggestions={["CREDIT", "DEBIT"]}
-                    value={transactionType}
-                    onSelect={(value) => setTransactionType(value)}
-                />
+                <InputGroup
+                className="w-full sm:w-1/2"
+                type="text"
+                name="typeOfTransaction"
+                label="Type"
+                placeholder=""
+                height="sm"
+                value={transactionType}
+                handleChange={(e) => setTransactionType(e.target.value)}
+              />
                 <InputGroup
                   className="w-full sm:w-1/2"
                   type="text"

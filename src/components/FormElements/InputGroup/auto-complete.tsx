@@ -77,7 +77,7 @@ export default function AutocompleteInput({
           onChange={(e) => handleChange(e.target.value)}
           onFocus={() => filtered.length > 0 && setShowDropdown(true)}
           placeholder={placeholder}
-          className="w-full h-12 rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-blue-500 dark:bg-dark-2 dark:text-white"
+          className="w-full h-12 rounded-lg border border-gray-300 px-4 py-1.5 outline-none focus:border-blue-500 dark:bg-dark-2 dark:text-white"
         />
 
         {showDropdown && filtered.length > 0 && (

@@ -34,12 +34,6 @@ const CreateInvoiceWithoutAmount = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     let currentError = "";
-    for (const row of workDetails) {
-      if (!row.amount || Number(row.amount) <= 0) {
-        currentError = "Amount should be greater than 0";
-        break;
-      }
-    }
 
     if (currentError) {
       toast.error(currentError);
